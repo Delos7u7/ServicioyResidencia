@@ -9,20 +9,20 @@ import {
 import { Link } from "react-router-dom";
 
 export function SignUp() {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [contrasenia, setContrasenia] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = {
-      name,
-      email,
-      password,
+      nombre,
+      correo,
+      contrasenia,
     };
 
     try {
-      const response = await fetch('https://tu-backend.com/api/register', {
+      const response = await fetch('http://178.6.4.241:8000/api/registro/alumno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,8 +67,8 @@ export function SignUp() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
             />
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Correo Electrónico
@@ -80,8 +80,8 @@ export function SignUp() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={correo}
+              onChange={(e) => setCorreo(e.target.value)}
             />
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
               Contraseña
@@ -93,8 +93,8 @@ export function SignUp() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              value={contrasenia}
+              onChange={(e) => setContrasenia(e.target.value)}
             />
           </div>
           <Button className="mt-6" fullWidth type="submit">

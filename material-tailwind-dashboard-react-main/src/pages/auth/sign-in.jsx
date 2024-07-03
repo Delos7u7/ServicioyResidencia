@@ -9,15 +9,15 @@ import {
 import { Link } from "react-router-dom";
 
 export function SignIn() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [correo, setEmail] = useState('');
+  const [contrasenia, setPassword] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const data = { email, password };
+    const data = { correo, contrasenia };
 
     try {
-      const response = await fetch('TU_ENDPOINT_AQUI', {
+      const response = await fetch('http://178.6.4.241:8000/api/login/alumno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,7 +26,7 @@ export function SignIn() {
       });
 
       if (response.ok) {
-        // Manejar la respuesta exitosa
+        console.log(response);
         console.log('Login successful');
       } else {
         // Manejar errores
@@ -56,7 +56,7 @@ export function SignIn() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
-              value={email}
+              value={correo}
               onChange={(e) => setEmail(e.target.value)}
             />
             <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
@@ -70,7 +70,7 @@ export function SignIn() {
               labelProps={{
                 className: "before:content-none after:content-none",
               }}
-              value={password}
+              value={contrasenia}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
