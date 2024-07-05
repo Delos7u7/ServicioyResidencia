@@ -11,6 +11,11 @@ import routes from "@/routes";
 export function Auth() {
   const navbarRoutes = [
     {
+      name: "inicio",
+      path: "/dashboard/inicio",
+      icon: ChartPieIcon,
+    },
+    {
       name: "dashboard",
       path: "/dashboard/home",
       icon: ChartPieIcon,

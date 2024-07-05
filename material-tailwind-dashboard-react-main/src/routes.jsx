@@ -19,6 +19,12 @@ export const routes = [
     pages: [
       {
         icon: <HomeIcon {...icon} />,
+        name: "Inicio",
+        path: "/inicio",
+        element: <Profile/>
+      },
+      {
+        icon: <HomeIcon {...icon} />,
         name: "dashboard",
         path: "/home",
         element: <Home />,
