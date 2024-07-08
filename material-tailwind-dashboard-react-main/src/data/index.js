@@ -6,3 +6,5 @@ export * from "@/data/platform-settings-data";
 export * from "@/data/conversations-data";
 export * from "@/data/projects-data";
 export * from "@/data/authors-table-data";
+export * from "@/data/convocatoria-datos";
+export * from "@/data/afiliaciones-table";

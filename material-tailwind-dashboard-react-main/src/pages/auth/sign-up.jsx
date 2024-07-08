@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   Input,
@@ -12,9 +12,49 @@ export function SignUp() {
   const [nombre, setNombre] = useState("");
   const [correo, setCorreo] = useState("");
   const [contrasenia, setContrasenia] = useState("");
+  const [error, setError] = useState("");
+  const [correoError, setCorreoError] = useState("");
+  const [contraseniaError, setContraseniaError] = useState("");
+
+  const validarCorreo = (email) => {
+    const regex = /^[a-zA-Z0-9._-]+@itsoeh\.edu\.mx$/;
+    return regex.test(email);
+  };
+
+  const validarContrasenia = (password) => {
+    return password.length >= 8;
+  };
+
+  useEffect(() => {
+    if (correo && !validarCorreo(correo)) {
+      setCorreoError("El correo debe tener el dominio @itsoeh.edu.mx");
+    } else {
+      setCorreoError("");
+    }
+  }, [correo]);
+
+  useEffect(() => {
+    if (contrasenia && !validarContrasenia(contrasenia)) {
+      setContraseniaError("La contraseña debe tener al menos 8 caracteres");
+    } else {
+      setContraseniaError("");
+    }
+  }, [contrasenia]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError(""); // Limpiar errores anteriores
+
+    if (!validarCorreo(correo)) {
+      setError("El correo electrónico debe tener el dominio @itsoeh.edu.mx");
+      return;
+    }
+
+    if (!validarContrasenia(contrasenia)) {
+      setError("La contraseña debe tener al menos 8 caracteres");
+      return;
+    }
+
     const data = {
       nombre,
       correo,
@@ -31,14 +71,16 @@ export function SignUp() {
       });
 
       if (response.ok) {
-        // Maneja la respuesta exitosa
         console.log('Registro exitoso');
+        // Aquí puedes redirigir al usuario o mostrar un mensaje de éxito
+      } else if (response.status === 401) {
+        setError("El correo electrónico ya está registrado.");
       } else {
-        // Maneja el error
-        console.error('Error en el registro');
+        setError("Error en el registro. Por favor, intente nuevamente.");
       }
     } catch (error) {
       console.error('Error en la solicitud:', error);
+      setError("Error de conexión. Por favor, intente más tarde.");
     }
   };
 
@@ -75,7 +117,7 @@ export function SignUp() {
             </Typography>
             <Input
               size="lg"
-              placeholder="Ej. itsoeh@itsoeh.edu.mx"
+              placeholder="Ej. usuario@itsoeh.edu.mx"
               className="!border-t-blue-gray-200 focus:!border-t-gray-900"
               labelProps={{
                 className: "before:content-none after:content-none",
@@ -83,20 +125,36 @@ export function SignUp() {
               value={correo}
               onChange={(e) => setCorreo(e.target.value)}
             />
-            <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
-              Contraseña
+            {correoError && (
+              <Typography variant="small" color="red" className="mt-1">
+                {correoError}
+              </Typography>
+            )}
+           <Typography variant="small" color="blue-gray" className="-mb-3 font-medium">
+            Contraseña
+          </Typography>
+          <Input
+            type="password"
+            size="lg"
+            placeholder="********"
+            className="!border-t-blue-gray-200 focus:!border-t-gray-900"
+            labelProps={{
+              className: "before:content-none after:content-none",
+            }}
+            value={contrasenia}
+            onChange={(e) => setContrasenia(e.target.value)}
+          />
+          {contraseniaError && (
+            <Typography variant="small" color="red" className="mt-1">
+              {contraseniaError}
             </Typography>
-            <Input
-              size="lg"
-              placeholder="********"
-              className="!border-t-blue-gray-200 focus:!border-t-gray-900"
-              labelProps={{
-                className: "before:content-none after:content-none",
-              }}
-              value={contrasenia}
-              onChange={(e) => setContrasenia(e.target.value)}
-            />
+          )}
           </div>
+          {error && (
+            <Typography variant="small" color="red" className="mt-2">
+              {error}
+            </Typography>
+          )}
           <Button className="mt-6" fullWidth type="submit">
             Registrarse
           </Button>
