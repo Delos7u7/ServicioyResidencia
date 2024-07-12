@@ -43,7 +43,7 @@ export function SignUp() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setError(""); // Limpiar errores anteriores
+    setError("");
 
     if (!validarCorreo(correo)) {
       setError("El correo electrónico debe tener el dominio @itsoeh.edu.mx");
@@ -62,7 +62,7 @@ export function SignUp() {
     };
 
     try {
-      const response = await fetch('http://178.6.4.241:8000/api/registro/alumno', {
+      const response = await fetch('http://192.168.0.35:8000/api/registro/alumno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

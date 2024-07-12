@@ -37,7 +37,7 @@ export function Dashboard() {
         <Routes>
           {routes.map(
             ({ layout, pages }) =>
-              layout === "dashboard" &&
+              (layout === "dashboard" || layout === "servicioSS") &&
               pages.map(({ path, element }) => (
                 <Route exact path={path} element={element} />
               ))

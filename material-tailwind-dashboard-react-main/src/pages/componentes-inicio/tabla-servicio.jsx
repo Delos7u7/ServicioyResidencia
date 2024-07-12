@@ -24,7 +24,7 @@ export function Afiliaciones({ tipo }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`/api/${tipo}`);
+        const response = await fetch(`http://192.168.0.35:8000/api/programas?tipo=${tipo}`);
         const data = await response.json();
         setDatos(data);
       } catch (error) {
@@ -108,10 +108,10 @@ export function Afiliaciones({ tipo }) {
                   programa,
                   tipo_programa,
                   empresa_dependencia_organismo,
-                  área,
+                  area,
                   responsable,
-                  télefono,
-                  dirección,
+                  telefono,
+                  direccion,
                 },
                 key
               ) => {
@@ -127,10 +127,10 @@ export function Afiliaciones({ tipo }) {
                     <td className={className}>
                       {empresa_dependencia_organismo}
                     </td>
-                    <td className={className}>{área}</td>
+                    <td className={className}>{area}</td>
                     <td className={className}>{responsable}</td>
-                    <td className={className}>{télefono}</td>
-                    <td className={className}>{dirección}</td>
+                    <td className={className}>{telefono}</td>
+                    <td className={className}>{direccion}</td>
                   </tr>
                 );
               }

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import {
-  Card,
-  Input,
-  Checkbox,
-  Button,
-  Typography,
+import { 
+  Card, 
+  Input, 
+  Checkbox, 
+  Button, 
+  Typography, 
 } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
 
@@ -17,7 +17,7 @@ export function SignIn() {
     const data = { correo, contrasenia };
 
     try {
-      const response = await fetch('http://178.6.4.241:8000/api/login/alumno', {
+      const response = await fetch('http://192.168.0.35:8000/api/login/alumno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,10 +26,12 @@ export function SignIn() {
       });
 
       if (response.ok) {
-        console.log(response);
-        console.log('Login successful');
+        const result = await response.json();
+        const token = result.token; // Asume que el token se encuentra en la propiedad "token" del cuerpo de la respuesta
+        const estado = result.estado;
+        console.log('Login successful, token:', token);
+        console.log('Login successful, estado:', estado);
       } else {
-        // Manejar errores
         console.error('Login failed');
       }
     } catch (error) {
@@ -41,8 +43,12 @@ export function SignIn() {
     <section className="h-screen flex">
       <div className="w-full lg:w-3/5 flex flex-col justify-center">
         <div className="text-center mb-4">
-          <Typography variant="h2" className="font-bold mb-2">Inicia Sesión</Typography>
-          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">Introduce tu correo electrónico y tu contraseña para iniciar sesión.</Typography>
+          <Typography variant="h2" className="font-bold mb-2">
+            Inicia Sesión
+          </Typography>
+          <Typography variant="paragraph" color="blue-gray" className="text-lg font-normal">
+            Introduce tu correo electrónico y tu contraseña para iniciar sesión.
+          </Typography>
         </div>
         <form className="mb-2 mx-auto w-80 max-w-screen-lg lg:w-1/2" onSubmit={handleSubmit}>
           <div className="mb-11 flex flex-col gap-4">
@@ -89,10 +95,11 @@ export function SignIn() {
           </div>
           <Typography variant="paragraph" className="text-center text-blue-gray-500 font-medium mt-4">
             ¿No tienes cuenta?
-            <Link to="/auth/sign-up" className="text-gray-900 ml-1">Crea una</Link>
+            <Link to="/auth/sign-up" className="text-gray-900 ml-1">
+              Crea una
+            </Link>
           </Typography>
         </form>
-
       </div>
       <div className="w-2/5 hidden lg:flex lg:items-center lg:justify-center">
         <img
@@ -100,7 +107,6 @@ export function SignIn() {
           className="w-4/5 h-4/5 object-contain rounded-3xl"
         />
       </div>
-
     </section>
   );
 }

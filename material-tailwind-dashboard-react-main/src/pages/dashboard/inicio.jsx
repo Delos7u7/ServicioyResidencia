@@ -23,7 +23,7 @@ import {
 
 import { Link } from "react-router-dom";
 import { Convocatoria } from "@/pages/componentes-inicio/convocatoria";
-import { Afiliaciones } from "@/pages/dashboard/tabla-servicio";
+import { Afiliaciones } from "@/pages/componentes-inicio/tabla-servicio";
 
 import { datosConvocatoria } from "@/data";
 
@@ -41,7 +41,7 @@ export function Inicio() {
             <div className="w-svw h-svw flex my-14 mr-10 justify-center items-center">
                 <div className="w-full h-full fade-bottom flex justify-center items-center">
                     <img
-                        src="/img/Lobo_itsoehcop-removebg-preview.png"
+                        src="/img/lobo.png"
                         alt="bruce-mars"
                         className="w-7/12 h-7/12 object-contain"
                     />
@@ -71,7 +71,6 @@ export function Inicio() {
                         <li>Solicitud de Servicio social</li>
                     </Card>
                 </div>
-                <Afiliaciones tipo="servicio"></Afiliaciones>
                 <div className="w-full h-full">
                     <Card ref={residenciaRef} className="flex flex-col gap-12 p-7 text-center mt-20 mb-20">
                         <h2 className="text-6xl">Pre-resquisitos para Residencia</h2>
@@ -88,7 +87,6 @@ export function Inicio() {
                         <li>Solicitud de Servicio social</li>
                     </Card>
                 </div>
-                <Afiliaciones tipo="residencia"></Afiliaciones>
             </div>
         </div>
     );
