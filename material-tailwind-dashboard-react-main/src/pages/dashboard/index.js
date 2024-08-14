@@ -7,3 +7,4 @@ export * from "@/pages/dashboard/servicio"
 export * from "@/pages/componentes-inicio/tabla-servicio";
 export * from "@/pages/componentes-inicio/convocatoria";
 export * from "@/pages/serviciosocial/solicitudSS";
+export * from "@/pages/serviciosocial/solicitudSS-enviar"

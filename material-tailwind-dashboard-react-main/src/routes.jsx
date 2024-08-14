@@ -6,9 +6,11 @@ import {
   ServerStackIcon,
   RectangleStackIcon,
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications, Inicio, Servicio } from "@/pages/dashboard";
+import { Home, Profile, Tables, Notifications, Inicio, Servicio, SolicitudSSEnviar } from "@/pages/dashboard";
+import { Afiliaciones } from "@/pages/componentes-inicio/tabla-servicio";
 import { SignIn, SignUp } from "@/pages/auth";
 import { SolicitudSS } from "@/pages/serviciosocial/solicitudSS"
+
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -63,6 +65,16 @@ export const routes = [
             nombre: 'SolicitudSS',
             path: '/solicitud-servicio-social',
             element: <SolicitudSS/>,
+        },
+        {
+            nombre : 'SolicitudSSEnviar',
+            path: '/solicitud-servicio-social/enviar',
+            element: <SolicitudSSEnviar />,
+        },
+        {
+            nombre : 'Afiliaciones',
+            path: '/solicitud-servicio-social/afiliaciones',
+            element: <Afiliaciones />,
         },
     ]
   },

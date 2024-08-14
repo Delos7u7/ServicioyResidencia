@@ -9,6 +9,7 @@ import { Navbar, Footer } from "@/widgets/layout";
 import routes from "@/routes";
 
 export function Auth() {
+  /*
   const navbarRoutes = [
     {
       name: "convocatoria",
@@ -32,15 +33,16 @@ export function Auth() {
     },
     {
       name: "sign up",
-      path: "/auth/sign-up",
+      path: "/auth/sign-upsss",
       icon: UserPlusIcon,
     },
     {
       name: "sign in",
-      path: "/auth/sign-in",
+      path: "/auth/sign-insss",
       icon: ArrowRightOnRectangleIcon,
     },
   ];
+  */
 
   return (
     <div className="relative min-h-screen w-full">

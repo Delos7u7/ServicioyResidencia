@@ -11,39 +11,31 @@ import {
 import Docxtemplater from 'docxtemplater';
 import PizZip from 'pizzip';
 import { saveAs } from 'file-saver';
-import { Convocatoria } from "@/pages/componentes-inicio/convocatoria";
-import { Afiliaciones } from "@/pages/componentes-inicio/tabla-servicio"; 
+import { useNavigate } from 'react-router-dom';
 
 export function SolicitudSS() {
   const [formData, setFormData] = useState({});
   const [programaCatalogo, setProgramaCatalogo] = useState("si");
-
   const documentos = [
     "Kardex",
     "Copia de credencial INE o credencial del estudiante del ITSOEH (ambos vigentes)",
     "Copia de constancia de vigencia de derechos IMSS",
     "Cartilla de salud IMSS"
   ];
+  const navigate = useNavigate();
 
-  const camposPersonales = [
-    { id: "domicilio", label: "Domicilio completo:", placeholder: "(Calle, número ext. número int., Colonia, Municipio, Estado. C.P.)" },
-    { id: "telefonoFijo", label: "Tel. fijo:" },
-    { id: "noAfiliacionIMSS", label: "No. de afiliación IMSS:" },
-  ];
-
-  const camposEmpresa = [
-    { id: "rfc", label: "Registro Federal de Contribuyentes:" },
-    { id: "giro", label: "Giro o actividad principal de la empresa:" },
-    { id: "redesSociales", label: "Redes Sociales:" },
-    { id: "emailEmpresa", label: "Correo electrónico:" },
-    { id: "gradoTitular", label: "Grado académico del Titular:" },
-    { id: "nombreTitular", label: "Nombre completo del Titular:" },
-    { id: "nombreContacto", label: "Nombre completo del contacto:" },
-    { id: "cargoContacto", label: "Cargo del contacto:" },
-    { id: "telefonoContacto", label: "Teléfono celular del Titular o contacto:" },
-    { id: "emailContacto", label: "Correo del Titular o contacto:" },
-    { id: "nombrePrograma", label: "Nombre del programa:" },
-  ];
+  // Datos estáticos para los campos desactivados
+  const staticData = {
+    programaEducativo: "Ingeniería en Sistemas Computacionales",
+    matricula: "20220001",
+    nombreEstudiante: "Juan Pérez García",
+    correoElectronico: "juan.perez@example.com",
+    telefono: "5512345678",
+    nombrePrograma: "Desarrollo de Software",
+    domicilioEmpresa: "Calle Principal 123, Ciudad Example",
+    telefonoE: "5587654321",
+    responsableE: "Gerente de Proyectos"
+  };
 
   const handleInputChange = (e) => {
     setFormData({
@@ -57,17 +49,11 @@ export function SolicitudSS() {
   };
 
   const generateDocument = async () => {
-    const backendData = {
-      nombreEstudiante: "Juan Pérez",
-      matricula: "2020-1234",
-      programaEducativo: "Ingeniería en Sistemas Computacionales",
-      fechaActual: new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }),
-      programaCatalogo: programaCatalogo === "si" ? "SI  (    X   )    NO  (         )" : "SI  (       )    NO  (     X    )",
-    };
-
     const documentData = {
-      ...backendData,
+      ...staticData,
       ...formData,
+      programaCatalogo: programaCatalogo === "si" ? "SI  (    X   )    NO  (         )" : "SI  (       )    NO  (     X    )",
+      fechaActual: new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }),
     };
 
     try {
@@ -92,6 +78,8 @@ export function SolicitudSS() {
       });
 
       saveAs(out, `${documentData.matricula}_solicitud_servicio_social.docx`);
+
+      navigate('/dashboard/solicitud-servicio-social/enviar');
     } catch (error) {
       console.error('Error al generar el documento:', error);
     }
@@ -124,68 +112,251 @@ export function SolicitudSS() {
           <Typography variant="h6" className="mt-8 mb-4">
             Información personal
           </Typography>
-          {camposPersonales.map((campo) => (
-            <div key={campo.id} className="mb-4">
-              <Typography>{campo.label}</Typography>
-              <Input 
-                type="text" 
-                className="mt-1" 
-                name={campo.id}
-                placeholder={campo.placeholder || ""}
-                onChange={handleInputChange}
-              />
-            </div>
-          ))}
+          <div className="mb-4">
+            <Typography>Programa Educativo:</Typography>
+            <Input
+              type="text"
+              name="programaEducativo"
+              className="mt-1"
+              value={staticData.programaEducativo}
+              disabled={true}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Matrícula:</Typography>
+            <Input
+              type="text"
+              name="matricula"
+              className="mt-1"
+              value={staticData.matricula}
+              disabled={true}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Nombre completo:</Typography>
+            <Input
+              type="text"
+              name="nombreEstudiante"
+              className="mt-1"
+              value={staticData.nombreEstudiante}
+              disabled={true}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Domicilio completo:</Typography>
+            <Input
+              type="text"
+              name="domicilio"
+              className="mt-1"
+              value={formData.domicilio || ""}
+              onChange={handleInputChange}
+              placeholder="(Calle, número ext. número int., Colonia, Municipio, Estado. C.P.)"
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Correo electrónico:</Typography>
+            <Input
+              type="text"
+              name="correoElectronico"
+              className="mt-1"
+              value={staticData.correoElectronico}
+              disabled={true}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Teléfono celular:</Typography>
+            <Input
+              type="text"
+              name="telefono"
+              className="mt-1"
+              value={staticData.telefono}
+              disabled={true}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Tel. fijo:</Typography>
+            <Input
+              type="text"
+              name="telefonoFijo"
+              className="mt-1"
+              value={formData.telefonoFijo || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>No. de afiliación IMSS:</Typography>
+            <Input
+              type="text"
+              name="noAfiliacionIMSS"
+              className="mt-1"
+              value={formData.noAfiliacionIMSS || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+
           <Typography variant="h6" className="mt-8 mb-4">
             Información de la empresa
           </Typography>
-          {camposEmpresa.map((campo) => (
-            <div key={campo.id} className="mb-4">
-              <Typography>{campo.label}</Typography>
-              <Input 
-                type="text" 
-                className="mt-1" 
-                name={campo.id}
-                placeholder={campo.placeholder || ""}
-                onChange={handleInputChange}
-              />
-            </div>
-          ))}
           <div className="mb-4">
-            <Typography>Programa del catálogo publicado en la página oficial del ITSOEH:</Typography>
-            <div className="flex items-center mt-2">
-              <Radio
-                id="programaCatalogoSi"
-                name="programaCatalogo"
-                label="SI"
-                value="si"
-                checked={programaCatalogo === "si"}
-                onChange={handleRadioChange}
-                className=""
-              />
-              <Radio
-                id="programaCatalogoNo"
-                name="programaCatalogo"
-                label="NO"
-                value="no"
-                checked={programaCatalogo === "no"}
-                onChange={handleRadioChange}
-              />
-            </div>
+            <Typography>Razón Social:</Typography>
+            <Input
+              type="text"
+              name="nombrePrograma"
+              className="mt-1"
+              value={staticData.nombrePrograma}
+              disabled={true}
+            />
           </div>
-          <div className="w-full flex justify-center">
-          <Button
-            color="blue"
-            className="my-6 text-1xl"
-            onClick={generateDocument}
-          >
-            Generar Solicitud de Servicio Social
-          </Button>
+          <div className="mb-4">
+            <Typography>Domicilio completo:</Typography>
+            <Input
+              type="text"
+              name="domicilioEmpresa"
+              className="mt-1"
+              value={staticData.domicilioEmpresa}
+              disabled={true}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Registro Federal de Contribuyentes:</Typography>
+            <Input
+              type="text"
+              name="rfc"
+              className="mt-1"
+              value={formData.rfc || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Giro o actividad principal de la empresa:</Typography>
+            <Input
+              type="text"
+              name="giro"
+              className="mt-1"
+              value={formData.giro || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Teléfono fijo:</Typography>
+            <Input
+              type="text"
+              name="telefonoE"
+              className="mt-1"
+              value={staticData.telefonoE}
+              disabled={true}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Redes Sociales:</Typography>
+            <Input
+              type="text"
+              name="redesSociales"
+              className="mt-1"
+              value={formData.redesSociales || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Correo electrónico de la empresa:</Typography>
+            <Input
+              type="text"
+              name="emailEmpresa"
+              className="mt-1"
+              value={formData.emailEmpresa || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Grado académico del Titular:</Typography>
+            <Input
+              type="text"
+              name="gradoTitular"
+              className="mt-1"
+              value={formData.gradoTitular || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Nombre completo del Titular:</Typography>
+            <Input
+              type="text"
+              name="nombreTitular"
+              className="mt-1"
+              value={formData.nombreTitular || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Cargo del Titular:</Typography>
+            <Input
+              type="text"
+              name="responsableE"
+              className="mt-1"
+              value={staticData.responsableE}
+              disabled={true}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Nombre completo del contacto:</Typography>
+            <Input
+              type="text"
+              name="nombreContacto"
+              className="mt-1"
+              value={formData.nombreContacto || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Cargo del contacto:</Typography>
+            <Input
+              type="text"
+              name="cargoContacto"
+              className="mt-1"
+              value={formData.cargoContacto || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Teléfono celular del Titular o contacto:</Typography>
+            <Input
+              type="text"
+              name="telefonoContacto"
+              className="mt-1"
+              value={formData.telefonoContacto || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+          <div className="mb-4">
+            <Typography>Correo del Titular o contacto:</Typography>
+            <Input
+              type="text"
+              name="emailContacto"
+              className="mt-1"
+              value={formData.emailContacto || ""}
+              onChange={handleInputChange}
+            />
+          </div>
+
+          <Typography variant="h6" className="mt-8 mb-4">
+            Datos del programa
+          </Typography>
+          <div className="mb-4">
+            <Typography>Nombre del programa:</Typography>
+            <Input
+              type="text"
+              name="nombrePrograma"
+              className="mt-1"
+              value={staticData.nombrePrograma}
+              disabled={true}
+            />
           </div>
         </CardBody>
       </Card>
+      <Button onClick={generateDocument}>Generar Solicitud</Button>
     </div>
   );
 }
+
 
 export default SolicitudSS;

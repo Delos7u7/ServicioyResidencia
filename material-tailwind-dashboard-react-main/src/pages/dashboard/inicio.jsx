@@ -28,6 +28,8 @@ import { Afiliaciones } from "@/pages/componentes-inicio/tabla-servicio";
 import { datosConvocatoria } from "@/data";
 
 export function Inicio() {
+    const token = localStorage.getItem('token');
+    console.log('Token almacenado en localStorage:', token);
     const servicioRef = useRef(null);
     const residenciaRef = useRef(null);
 
@@ -58,12 +60,12 @@ export function Inicio() {
                 <div className="w-full h-full">
                     <Card ref={servicioRef} className="flex flex-col gap-12 p-7 text-center mb-20">
                         <h2 className="text-6xl">Pre-resquisitos para Servicio Social</h2>
-                        <li>Carta de Presentación de Servicio Social</li>
-                        <li>Carta de Aceptación de Servicio Social</li>
-                        <li>Registro de Servicio Social</li>
-                        <li>Carta Compromiso de Servicio Social</li>
+                        <li>Kardex</li>
+                        <li>Copia de INE o credencial de la escuela (vigente)</li>
+                        <li>Copia de constancia de vigencia de derechos IMSS</li>
                         <li>Solicitud de Servicio social</li>
                         <h2 className="text-6xl">¿Cómo puedo iniciar el trámite de servico social?</h2>
+                        <li>Cartilla de salud IMSS</li>
                         <li>Carta de Presentación de Servicio Social</li>
                         <li>Carta de Aceptación de Servicio Social</li>
                         <li>Registro de Servicio Social</li>

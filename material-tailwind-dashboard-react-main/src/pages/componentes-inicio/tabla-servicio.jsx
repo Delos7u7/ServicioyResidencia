@@ -24,7 +24,7 @@ export function Afiliaciones({ tipo }) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`http://192.168.0.35:8000/api/programas?tipo=${tipo}`);
+        const response = await fetch(`http://192.168.0.29:8000/api/programas?tipo=${tipo}`);
         const data = await response.json();
         setDatos(data);
       } catch (error) {

@@ -17,7 +17,7 @@ export function SignIn() {
     const data = { correo, contrasenia };
 
     try {
-      const response = await fetch('http://192.168.0.35:8000/api/login/alumno', {
+      const response = await fetch('http://192.168.0.29:8000/api/login/alumno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -27,10 +27,16 @@ export function SignIn() {
 
       if (response.ok) {
         const result = await response.json();
-        const token = result.token; // Asume que el token se encuentra en la propiedad "token" del cuerpo de la respuesta
-        const estado = result.estado;
+        const { token, estado } = result; // Asume que el token se encuentra en la propiedad "token" del cuerpo de la respuesta
         console.log('Login successful, token:', token);
         console.log('Login successful, estado:', estado);
+        
+        // Guardar el token y estado en localStorage
+        localStorage.setItem('token', token);
+        localStorage.setItem('estado', estado);
+
+        // Redirigir a la página del dashboard
+        window.location.href = '/dashboard/inicio';
       } else {
         console.error('Login failed');
       }

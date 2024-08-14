@@ -7,7 +7,7 @@ import {
 import { Link } from "react-router-dom"; // Importa Link desde react-router-dom
 
 const fases = [
-  { title: "¡Escoge el lugar para hacer tu servicio social!", path: "/escoge-lugar" },
+  { title: "¡Escoge el lugar para hacer tu servicio social!", path: "/dashboard/solicitud-servicio-social/afiliaciones" },
   { title: "Requisitos iniciales", path: "/dashboard/solicitud-servicio-social" },
   { title: "Carta presentación", path: "/carta-presentacion" },
   { title: "Carta aceptación", path: "/carta-aceptacion" },
