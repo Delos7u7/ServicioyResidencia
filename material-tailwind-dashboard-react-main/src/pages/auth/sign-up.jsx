@@ -62,7 +62,7 @@ export function SignUp() {
     };
 
     try {
-      const response = await fetch('http://192.168.0.35:8000/api/registro/alumno', {
+      const response = await fetch('http://192.168.0.18:8000/api/registro/alumno', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -10,6 +10,8 @@ import { Home, Profile, Tables, Notifications, Inicio, Servicio, SolicitudSSEnvi
 import { Afiliaciones } from "@/pages/componentes-inicio/tabla-servicio";
 import { SignIn, SignUp } from "@/pages/auth";
 import { SolicitudSS } from "@/pages/serviciosocial/solicitudSS"
+import CartaPresentacion from "./pages/serviciosocial/CartaPresentacion";
+import CartaCompromiso from "./pages/serviciosocial/CartaCompromiso";
 
 
 const icon = {
@@ -76,7 +78,17 @@ export const routes = [
             path: '/solicitud-servicio-social/afiliaciones',
             element: <Afiliaciones />,
         },
-    ]
+        {
+            nombre : 'Carta Presentacion',
+            path: '/carta-presentacion',
+            element: <CartaPresentacion/>
+        },
+        {
+            nombre : 'Carta Compromiso',
+            path: '/carta-compromiso',
+            element: <CartaCompromiso/>
+        },
+      ]
   },
   {
     title: "auth pages",

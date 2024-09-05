@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Card,
   CardHeader,
@@ -24,18 +24,39 @@ export function SolicitudSS() {
   ];
   const navigate = useNavigate();
 
-  // Datos estáticos para los campos desactivados
-  const staticData = {
-    programaEducativo: "Ingeniería en Sistemas Computacionales",
-    matricula: "20220001",
-    nombreEstudiante: "Juan Pérez García",
-    correoElectronico: "juan.perez@example.com",
-    telefono: "5512345678",
-    nombrePrograma: "Desarrollo de Software",
-    domicilioEmpresa: "Calle Principal 123, Ciudad Example",
-    telefonoE: "5587654321",
-    responsableE: "Gerente de Proyectos"
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      const token = localStorage.getItem('token');
+      try {
+        const apiResponse = await fetch('http://192.168.0.18:8000/api/solicitudServicioSocial/alumno', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          }
+        });
+
+        if (apiResponse.ok) {
+          const data = await apiResponse.json();
+          setFormData({
+            programaEducativo: data.datos_alumno.carrera,
+            matricula: data.id,
+            nombreEstudiante: data.nombre,
+            correoElectronico: data.correo,
+            telefono: data.datos_alumno.telefono,
+            domicilio: data.datos_alumno.domicilio,
+            // Otras propiedades si es necesario
+          });
+        } else {
+          console.error('Error al obtener los datos del alumno desde la API');
+        }
+      } catch (error) {
+        console.error('Error al realizar la solicitud a la API:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleInputChange = (e) => {
     setFormData({
@@ -50,7 +71,6 @@ export function SolicitudSS() {
 
   const generateDocument = async () => {
     const documentData = {
-      ...staticData,
       ...formData,
       programaCatalogo: programaCatalogo === "si" ? "SI  (    X   )    NO  (         )" : "SI  (       )    NO  (     X    )",
       fechaActual: new Date().toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' }),
@@ -80,6 +100,7 @@ export function SolicitudSS() {
       saveAs(out, `${documentData.matricula}_solicitud_servicio_social.docx`);
 
       navigate('/dashboard/solicitud-servicio-social/enviar');
+  
     } catch (error) {
       console.error('Error al generar el documento:', error);
     }
@@ -118,8 +139,9 @@ export function SolicitudSS() {
               type="text"
               name="programaEducativo"
               className="mt-1"
-              value={staticData.programaEducativo}
-              disabled={true}
+              value={formData.programaEducativo || ""}
+              onChange={handleInputChange}
+              disabled={true}  // Mantenerlo desactivado si lo deseas
             />
           </div>
           <div className="mb-4">
@@ -128,8 +150,9 @@ export function SolicitudSS() {
               type="text"
               name="matricula"
               className="mt-1"
-              value={staticData.matricula}
-              disabled={true}
+              value={formData.matricula || ""}
+              onChange={handleInputChange}
+              disabled={true}  // Mantenerlo desactivado si lo deseas
             />
           </div>
           <div className="mb-4">
@@ -138,8 +161,9 @@ export function SolicitudSS() {
               type="text"
               name="nombreEstudiante"
               className="mt-1"
-              value={staticData.nombreEstudiante}
-              disabled={true}
+              value={formData.nombreEstudiante || ""}
+              onChange={handleInputChange}
+              disabled={true}  // Mantenerlo desactivado si lo deseas
             />
           </div>
           <div className="mb-4">
@@ -159,8 +183,9 @@ export function SolicitudSS() {
               type="text"
               name="correoElectronico"
               className="mt-1"
-              value={staticData.correoElectronico}
-              disabled={true}
+              value={formData.correoElectronico || ""}
+              onChange={handleInputChange}
+              disabled={true}  // Mantenerlo desactivado si lo deseas
             />
           </div>
           <div className="mb-4">
@@ -169,8 +194,9 @@ export function SolicitudSS() {
               type="text"
               name="telefono"
               className="mt-1"
-              value={staticData.telefono}
-              disabled={true}
+              value={formData.telefono || ""}
+              onChange={handleInputChange}
+              disabled={true}  // Mantenerlo desactivado si lo deseas
             />
           </div>
           <div className="mb-4">
@@ -203,8 +229,9 @@ export function SolicitudSS() {
               type="text"
               name="nombrePrograma"
               className="mt-1"
-              value={staticData.nombrePrograma}
-              disabled={true}
+              value={formData.nombrePrograma || ""}
+              onChange={handleInputChange}
+              disabled={true}  // Mantenerlo desactivado si lo deseas
             />
           </div>
           <div className="mb-4">
@@ -213,8 +240,9 @@ export function SolicitudSS() {
               type="text"
               name="domicilioEmpresa"
               className="mt-1"
-              value={staticData.domicilioEmpresa}
-              disabled={true}
+              value={formData.domicilioEmpresa || ""}
+              onChange={handleInputChange}
+              disabled={true}  // Mantenerlo desactivado si lo deseas
             />
           </div>
           <div className="mb-4">
@@ -231,132 +259,52 @@ export function SolicitudSS() {
             <Typography>Giro o actividad principal de la empresa:</Typography>
             <Input
               type="text"
-              name="giro"
+              name="giroEmpresa"
               className="mt-1"
-              value={formData.giro || ""}
+              value={formData.giroEmpresa || ""}
               onChange={handleInputChange}
             />
           </div>
-          <div className="mb-4">
-            <Typography>Teléfono fijo:</Typography>
-            <Input
-              type="text"
-              name="telefonoE"
-              className="mt-1"
-              value={staticData.telefonoE}
-              disabled={true}
-            />
-          </div>
-          <div className="mb-4">
-            <Typography>Redes Sociales:</Typography>
-            <Input
-              type="text"
-              name="redesSociales"
-              className="mt-1"
-              value={formData.redesSociales || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <Typography>Correo electrónico de la empresa:</Typography>
-            <Input
-              type="text"
-              name="emailEmpresa"
-              className="mt-1"
-              value={formData.emailEmpresa || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <Typography>Grado académico del Titular:</Typography>
-            <Input
-              type="text"
-              name="gradoTitular"
-              className="mt-1"
-              value={formData.gradoTitular || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <Typography>Nombre completo del Titular:</Typography>
-            <Input
-              type="text"
-              name="nombreTitular"
-              className="mt-1"
-              value={formData.nombreTitular || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <Typography>Cargo del Titular:</Typography>
-            <Input
-              type="text"
-              name="responsableE"
-              className="mt-1"
-              value={staticData.responsableE}
-              disabled={true}
-            />
-          </div>
-          <div className="mb-4">
-            <Typography>Nombre completo del contacto:</Typography>
-            <Input
-              type="text"
-              name="nombreContacto"
-              className="mt-1"
-              value={formData.nombreContacto || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <Typography>Cargo del contacto:</Typography>
-            <Input
-              type="text"
-              name="cargoContacto"
-              className="mt-1"
-              value={formData.cargoContacto || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <Typography>Teléfono celular del Titular o contacto:</Typography>
-            <Input
-              type="text"
-              name="telefonoContacto"
-              className="mt-1"
-              value={formData.telefonoContacto || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-          <div className="mb-4">
-            <Typography>Correo del Titular o contacto:</Typography>
-            <Input
-              type="text"
-              name="emailContacto"
-              className="mt-1"
-              value={formData.emailContacto || ""}
-              onChange={handleInputChange}
-            />
-          </div>
-
-          <Typography variant="h6" className="mt-8 mb-4">
-            Datos del programa
-          </Typography>
           <div className="mb-4">
             <Typography>Nombre del programa:</Typography>
             <Input
               type="text"
               name="nombrePrograma"
               className="mt-1"
-              value={staticData.nombrePrograma}
-              disabled={true}
+              value={formData.nombrePrograma || ""}
+              onChange={handleInputChange}
             />
           </div>
+
+          <div className="mb-4">
+            <Typography>¿El programa pertenece al catálogo de programas de servicio social del ITSOEH?</Typography>
+            <div className="flex space-x-4 mt-2">
+              <Radio
+                id="programaCatalogoSi"
+                name="programaCatalogo"
+                label="Sí"
+                value="si"
+                onChange={handleRadioChange}
+                checked={programaCatalogo === "si"}
+              />
+              <Radio
+                id="programaCatalogoNo"
+                name="programaCatalogo"
+                label="No"
+                value="no"
+                onChange={handleRadioChange}
+                checked={programaCatalogo === "no"}
+              />
+            </div>
+          </div>
+
+          <Button onClick={generateDocument} className="mt-8">
+            Generar Solicitud
+          </Button>
         </CardBody>
       </Card>
-      <Button onClick={generateDocument}>Generar Solicitud</Button>
     </div>
   );
 }
-
 
 export default SolicitudSS;

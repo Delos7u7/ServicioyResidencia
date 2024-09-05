@@ -1,39 +1,23 @@
 import React, { useState, useEffect } from "react";
-import {
-  Typography,
-  Card,
-  CardHeader,
-  CardBody,
-  IconButton,
-  Menu,
-  MenuHandler,
-  MenuList,
-  MenuItem,
-  Avatar,
-  Tooltip,
-  Progress,
-} from "@material-tailwind/react";
-import {
-  EllipsisVerticalIcon,
-  CheckCircleIcon,
-} from "@heroicons/react/24/outline";
+import { Card, CardHeader, CardBody, Typography, Menu, MenuHandler, MenuList, MenuItem, IconButton } from '@material-tailwind/react';
+import { CheckCircleIcon, EllipsisVerticalIcon } from "@heroicons/react/24/outline";
 
 export function Afiliaciones({ tipo }) {
   const [datos, setDatos] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    async function fetchDatos() {
       try {
-        const response = await fetch(`http://192.168.0.29:8000/api/programas?tipo=${tipo}`);
-        const data = await response.json();
-        setDatos(data);
+        const response = await fetch("/api/afiliaciones");
+        const result = await response.json();
+        setDatos(result);
       } catch (error) {
-        console.error("Error al obtener los datos", error);
+        console.error("Error al cargar los datos:", error);
       }
-    };
+    }
 
-    fetchData();
-  }, [tipo]);
+    fetchDatos();
+  }, []);
 
   return (
     <Card className="overflow-hidden xl:col-span-2 border border-blue-gray-100 shadow-sm">
@@ -101,39 +85,49 @@ export function Afiliaciones({ tipo }) {
             </tr>
           </thead>
           <tbody>
-            {datos.map(
-              (
-                {
-                  clave,
-                  programa,
-                  tipo_programa,
-                  empresa_dependencia_organismo,
-                  area,
-                  responsable,
-                  telefono,
-                  direccion,
-                },
-                key
-              ) => {
-                const className = `py-3 px-5 ${
-                  key === datos.length - 1 ? "" : "border-b border-blue-gray-50"
-                }`;
+            {datos.length > 0 ? (
+              datos.map(
+                (
+                  {
+                    clave,
+                    programa,
+                    tipo_programa,
+                    empresa_dependencia_organismo,
+                    area,
+                    responsable,
+                    telefono,
+                    direccion,
+                  },
+                  key
+                ) => {
+                  const className = `py-3 px-5 ${
+                    key === datos.length - 1
+                      ? ""
+                      : "border-b border-blue-gray-50"
+                  }`;
 
-                return (
-                  <tr key={clave}>
-                    <td className={className}>{clave}</td>
-                    <td className={className}>{programa}</td>
-                    <td className={className}>{tipo_programa}</td>
-                    <td className={className}>
-                      {empresa_dependencia_organismo}
-                    </td>
-                    <td className={className}>{area}</td>
-                    <td className={className}>{responsable}</td>
-                    <td className={className}>{telefono}</td>
-                    <td className={className}>{direccion}</td>
-                  </tr>
-                );
-              }
+                  return (
+                    <tr key={clave}>
+                      <td className={className}>{clave}</td>
+                      <td className={className}>{programa}</td>
+                      <td className={className}>{tipo_programa}</td>
+                      <td className={className}>
+                        {empresa_dependencia_organismo}
+                      </td>
+                      <td className={className}>{area}</td>
+                      <td className={className}>{responsable}</td>
+                      <td className={className}>{telefono}</td>
+                      <td className={className}>{direccion}</td>
+                    </tr>
+                  );
+                }
+              )
+            ) : (
+              <tr>
+                <td colSpan="8" className="text-center py-3">
+                  No hay registros disponibles
+                </td>
+              </tr>
             )}
           </tbody>
         </table>

@@ -17,8 +17,9 @@ export function SignIn() {
     const data = { correo, contrasenia };
 
     try {
-      const response = await fetch('http://192.168.0.29:8000/api/login/alumno', {
+      const response = await fetch('http://192.168.0.18:8000/api/login/alumno', {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
