@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { 
-  Card, 
+import {
   Input, 
-  Checkbox, 
   Button, 
-  Typography, 
+  Typography 
 } from "@material-tailwind/react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export function SignIn() {
   const [correo, setEmail] = useState('');
   const [contrasenia, setPassword] = useState('');
+  const [estado, setEstado] = useState(null); // Nueva variable para manejar el estado de usuario
+  const [shouldNavigate, setShouldNavigate] = useState(false); // Para manejar la navegación condicional
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,13 +31,13 @@ export function SignIn() {
         const { token, estado } = result; // Asume que el token se encuentra en la propiedad "token" del cuerpo de la respuesta
         console.log('Login successful, token:', token);
         console.log('Login successful, estado:', estado);
-        
+
         // Guardar el token y estado en localStorage
         localStorage.setItem('token', token);
         localStorage.setItem('estado', estado);
 
-        // Redirigir a la página del dashboard
-        window.location.href = '/dashboard/inicio';
+        setEstado(estado); // Guardamos el estado del usuario
+        setShouldNavigate(true); // Permite la navegación
       } else {
         console.error('Login failed');
       }
@@ -45,6 +45,14 @@ export function SignIn() {
       console.error('Error:', error);
     }
   };
+
+  if (shouldNavigate) {
+    if (estado === 0) {
+      return <Navigate to="/formulario" replace />; 
+    } else if (estado === 1) {
+      return <Navigate to="/dashboard/inicio" replace />; 
+    }
+  }
 
   return (
     <section className="h-screen flex">

@@ -13,7 +13,6 @@ import { SolicitudSS } from "@/pages/serviciosocial/solicitudSS"
 import CartaPresentacion from "./pages/serviciosocial/CartaPresentacion";
 import CartaCompromiso from "./pages/serviciosocial/CartaCompromiso";
 
-
 const icon = {
   className: "w-5 h-5 text-inherit",
 };
@@ -26,13 +25,13 @@ export const routes = [
         icon: <HomeIcon {...icon} />,
         name: "Inicio",
         path: "/inicio",
-        element: <Inicio/>
+        element: <Inicio />,
       },
       {
         icon: <HomeIcon {...icon} />,
         name: "Servicio",
         path: "/servicio",
-        element: <Servicio/>
+        element: <Servicio />,
       },
       {
         icon: <HomeIcon {...icon} />,
@@ -63,32 +62,32 @@ export const routes = [
   {
     layout: "servicioSS",
     pages: [
-        {
-            nombre: 'SolicitudSS',
-            path: '/solicitud-servicio-social',
-            element: <SolicitudSS/>,
-        },
-        {
-            nombre : 'SolicitudSSEnviar',
-            path: '/solicitud-servicio-social/enviar',
-            element: <SolicitudSSEnviar />,
-        },
-        {
-            nombre : 'Afiliaciones',
-            path: '/solicitud-servicio-social/afiliaciones',
-            element: <Afiliaciones />,
-        },
-        {
-            nombre : 'Carta Presentacion',
-            path: '/carta-presentacion',
-            element: <CartaPresentacion/>
-        },
-        {
-            nombre : 'Carta Compromiso',
-            path: '/carta-compromiso',
-            element: <CartaCompromiso/>
-        },
-      ]
+      {
+        nombre: 'SolicitudSS',
+        path: '/solicitud-servicio-social',
+        element: <SolicitudSS />,
+      },
+      {
+        nombre: 'SolicitudSSEnviar',
+        path: '/solicitud-servicio-social/enviar',
+        element: <SolicitudSSEnviar />,
+      },
+      {
+        nombre: 'Afiliaciones',
+        path: '/solicitud-servicio-social/afiliaciones',
+        element: <Afiliaciones />,
+      },
+      {
+        nombre: 'Carta Presentacion',
+        path: '/carta-presentacion',
+        element: <CartaPresentacion />,
+      },
+      {
+        nombre: 'Carta Compromiso',
+        path: '/carta-compromiso',
+        element: <CartaCompromiso />,
+      },
+    ],
   },
   {
     title: "auth pages",
@@ -106,12 +105,6 @@ export const routes = [
         path: "/sign-up",
         element: <SignUp />,
       },
-      {
-        icon: <RectangleStackIcon {...icon} />,
-        name: "log out",
-        path: "/sign-up",
-        element: <SignUp />,
-      }
     ],
   },
 ];
