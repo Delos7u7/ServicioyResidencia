@@ -12,6 +12,10 @@ import { SignIn, SignUp } from "@/pages/auth";
 import { SolicitudSS } from "@/pages/serviciosocial/solicitudSS"
 import CartaPresentacion from "./pages/serviciosocial/CartaPresentacion";
 import CartaCompromiso from "./pages/serviciosocial/CartaCompromiso";
+import XXII from "./pages/dashboard/ReporteBimestral/XXII";
+import XXIII from "./pages/dashboard/ReporteBimestral/XXIII";
+import XXIV from "./pages/dashboard/ReporteBimestral/XXIV";
+import XXV from "./pages/dashboard/ReporteBimestral/XXV";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -35,7 +39,7 @@ export const routes = [
       },
       {
         icon: <HomeIcon {...icon} />,
-        name: "dashboard",
+        name: "Reporte Bimestral",
         path: "/home",
         element: <Home />,
       },
@@ -83,9 +87,24 @@ export const routes = [
         element: <CartaPresentacion />,
       },
       {
-        nombre: 'Carta Compromiso',
-        path: '/carta-compromiso',
-        element: <CartaCompromiso />,
+        nombre: 'XXII',
+        path: '/XXII',
+        element: <XXII />,
+      },
+      {
+        nombre: 'XXIII',
+        path: '/XXIII',
+        element: <XXIII />,
+      },
+      {
+        nombre: 'XXIV',
+        path: '/XXIV',
+        element: <XXIV/>,
+      },
+      {
+        nombre: 'XXV',
+        path: '/XXV',
+        element: <XXV />,
       },
     ],
   },
